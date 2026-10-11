@@ -157,6 +157,21 @@ def main():
             f.write("  <url><loc>%s/book?id=%s</loc></url>\n" % (ORIGIN, b["id"]))
         f.write("</urlset>\n")
 
+    # robots.txt shipped a hand-written Sitemap: line pointing at fahad.com, a domain
+    # that does not resolve, so crawlers were pointed at nothing. Same origin as the
+    # sitemap keeps the two from drifting apart again.
+    robots = os.path.join(BASE, "robots.txt")
+    if os.path.exists(robots):
+        text = open(robots, encoding="utf-8").read()
+        lines = [
+            ("Sitemap: %s/sitemap.xml" % ORIGIN) if l.startswith("Sitemap:") else l
+            for l in text.splitlines()
+        ]
+        if not any(l.startswith("Sitemap:") for l in lines):
+            lines.append("Sitemap: %s/sitemap.xml" % ORIGIN)
+        with open(os.path.join(DEPLOY_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+
     total = dir_bytes(DEPLOY_DIR)
     cats = defaultdict(int)
     for b in manifest:
