@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahad.com — Free PDF Book Library | All Types of Books</title>
+  <meta name="description" content="Fahad.com — Free PDF library of all types of books: Fiction, Science, History, Islam & Religion, Philosophy, Self-Help, Business, Poetry, Technology. Read online or download.">
+  <meta name="keywords" content="free pdf books, books pdf download, fahad.com, free ebooks, public domain books">
+  <meta property="og:title" content="Fahad.com — Free PDF Book Library">
+  <meta property="og:description" content="All types of books, free PDFs — read online or download.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📚</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/">FAHAD<b>.COM</b></a>
+    <span class="tagline">Free Book Library</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="hero-badge" id="heroBadge">Loading library…</span>
+      <h1>All Types of Books —<br><em>Free PDF Library</em></h1>
+      <p class="urdu">تمام قسم کی کتابیں — مفت PDF ڈاؤن لوڈ کریں</p>
+      <p class="sub">Classic public-domain books: read online in browser or download PDF — no sign-up, no cost.</p>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="search" placeholder="Search books, authors, topics…" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="chips" id="chips" aria-label="Categories"></section>
+
+    <div class="results-meta" id="resultsMeta"></div>
+
+    <section class="grid" id="grid" aria-live="polite"></section>
+
+    <div class="empty" id="empty" hidden>
+      <div class="empty-icon">🔍</div>
+      <h3>No books found</h3>
+      <p>Try another title, author or category.</p>
+    </div>
+
+    <div id="sentinel"></div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" hidden>
+      <button class="btn btn-primary load-more" id="loadMore" type="button">Load more</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="foot-brand">FAHAD<b>.COM</b></div>
+    <p>All books are <strong>public domain</strong> classics from Project Gutenberg — free to read and share.</p>
+    <p class="copy">© 2026 Fahad.com · Built for Vercel</p>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+<script src="guard.js"></script>
+</body>
+</html>

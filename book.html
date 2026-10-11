@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read Book — Fahad.com</title>
+  <meta name="description" content="Read free PDF books online at Fahad.com.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📚</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="reader-page">
+  <header class="site-header">
+    <a class="logo" href="/">FAHAD<b>.COM</b></a>
+    <a class="back-link" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      Library
+    </a>
+  </header>
+
+  <main class="reader-main">
+    <div class="reader-head">
+      <div class="mini-cover" id="miniCover"></div>
+      <div class="reader-info">
+        <span class="cat-badge" id="rCat"></span>
+        <h1 id="rTitle">Loading…</h1>
+        <p class="reader-author" id="rAuthor"></p>
+        <p class="reader-desc" id="rDesc"></p>
+        <div class="reader-meta" id="rMeta"></div>
+        <div class="reader-actions">
+          <a class="btn btn-primary" id="rDownload" href="#" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Download PDF
+          </a>
+          <a class="btn btn-link" id="rGutenberg" href="#" target="_blank" rel="noopener" hidden>
+            Read on Project Gutenberg ↗
+          </a>
+        </div>
+        <p class="reader-source" id="rSource"></p>
+      </div>
+    </div>
+
+    <div class="viewer-wrap">
+      <div class="viewer-bar">
+        <span>📖 Reading in browser</span>
+        <a id="rOpen" href="#" target="_blank" rel="noopener">Open full screen ↗</a>
+      </div>
+      <div class="viewer-idle" id="viewerIdle">
+        <img class="viewer-idle-cover" id="idleCover" alt="" hidden>
+        <p class="viewer-idle-text" id="idleText">Press Read to load the PDF.</p>
+        <button class="btn btn-primary btn-lg" id="idleRead" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3H10a2 2.5 0 0 1 2 2v14a2 2.5 0 0 0-2-2H4.5A2.5 2.5 0 0 1 2 14.5z"/><path d="M22 5.5A2.5 2.5 0 0 0 19.5 3H14a2 2.5 0 0 0-2 2v14a2 2.5 0 0 0 2-2h5.5a2.5 2.5 0 0 0 2.5-2.5z"/></svg>
+          Read Online
+        </button>
+      </div>
+      <iframe id="viewer" title="PDF Viewer" hidden></iframe>
+      <div class="viewer-fallback" id="viewerFallback" hidden>
+        <p>Your browser can't display the PDF inline.</p>
+        <a class="btn btn-primary" id="rDownload2" href="#" download>Download PDF</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="foot-brand">FAHAD<b>.COM</b></div>
+    <p>All books are <strong>public domain</strong> classics from Project Gutenberg — free to read and share.</p>
+    <p class="copy">© 2026 Fahad.com · Built for Vercel</p>
+  </footer>
+
+  <script src="assets/js/book.js"></script>
+<script src="guard.js"></script>
+</body>
+</html>

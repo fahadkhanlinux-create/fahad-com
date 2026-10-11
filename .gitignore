@@ -1,0 +1,20 @@
+.vercel
+logs
+*.log
+*.md
+
+# generated artefacts, rebuilt by tools/ and far too large for a source repo
+pdfs/
+assets/thumbs/
+data/books.json
+data/catalog.json
+sitemap.xml
+
+# the build scripts are source; the Gutenberg caches and working text next to
+# them are not
+tools/guten_*.json
+tools/txt/
+tools/__pycache__/
+tools/pagecounts.json
+tools/cover_fixed.json
+tools/theme_*.json
