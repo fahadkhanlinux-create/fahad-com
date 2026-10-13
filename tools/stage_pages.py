@@ -30,7 +30,8 @@ def main():
     os.makedirs(os.path.join(DEPLOY_DIR, "data"))
 
     for rel in ["index.html", "book.html", "guard.js", "vercel.json", "robots.txt",
-                "assets/css/style.css", "assets/js/app.js", "assets/js/book.js"]:
+                "assets/css/style.css", "assets/js/app.js", "assets/js/book.js",
+                "assets/og-image.jpg"]:
         dst = os.path.join(DEPLOY_DIR, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(os.path.join(BASE, rel), dst)

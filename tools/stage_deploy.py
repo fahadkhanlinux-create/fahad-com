@@ -31,6 +31,7 @@ MIRROR_RAW = "https://raw.githubusercontent.com/%s/%s/pdfs/%%s.pdf" % (MIRROR, M
 SHELL = [
     "index.html", "book.html", "guard.js", "vercel.json", "robots.txt",
     "assets/css/style.css", "assets/js/app.js", "assets/js/book.js",
+    "assets/og-image.jpg",
     ".vercelignore",
 ]
 
