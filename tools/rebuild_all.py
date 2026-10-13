@@ -41,28 +41,16 @@ def rebuild_pdf(b):
 
 
 def rebuild_thumb(b):
-    """Render page 1 of the freshly built PDF into the card thumbnail."""
-    bid = b["id"]
-    pdf = os.path.join(PDF_DIR, bid + ".pdf")
-    dest = os.path.join(THUMB_DIR, bid + ".jpg")
-    tmp = os.path.join(TXT_DIR, ".thumb-%s.png" % bid)
-    try:
-        import subprocess
-        from PIL import Image
-        subprocess.run(
-            ["mutool", "draw", "-o", tmp, "-r", "110", "-F", "png", pdf, "1"],
-            check=True, capture_output=True, timeout=120,
-        )
-        with Image.open(tmp) as im:
-            im = im.convert("RGB")
-            im.thumbnail((420, 840), Image.LANCZOS)
-            im.save(dest, "JPEG", quality=72, optimize=True, progressive=True)
-        return bid, "built"
-    except Exception as e:
-        return bid, f"error: {type(e).__name__}: {e}"[:120]
-    finally:
-        if os.path.exists(tmp):
-            os.remove(tmp)
+    """Render page 1 of the freshly built PDF into the card thumbnail.
+
+    Goes through build_thumbs rather than repeating it: a second copy of the cover
+    pipeline here is how the cards drifted onto a different layout than the full
+    rebuild in the first place.
+    """
+    from build_thumbs import _render
+    bid, status, _ = _render((b["id"], b.get("category", ""), PDF_DIR, THUMB_DIR),
+                             force=True)
+    return bid, status
 
 
 def main():

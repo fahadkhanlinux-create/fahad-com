@@ -72,9 +72,51 @@ def main():
 
     # sitemap must list every book
     sm = open(SITEMAP, encoding="utf-8").read()
-    check(f"<loc>https://fahad.com/book?id={ids[0]}</loc>" in sm, "sitemap missing first book")
+    # sitemap must list every book. build_sitemap.py writes /book.html?id= — the clean
+    # /book?id= form 404s on GitHub Pages, so this check used to fail on a correct sitemap
+    check(f"<loc>https://fahad.com/book.html?id={ids[0]}</loc>" in sm, "sitemap missing first book")
+    check("<loc>https://fahad.com/modern.html</loc>" in sm, "sitemap missing the modern shelf")
     n = sm.count("<url>")
-    check(n == len(books) + 1, f"sitemap has {n} urls for {len(books)} books")
+    check(n == len(books) + 2, f"sitemap has {n} urls for {len(books)} books + home + shelf")
+
+    # the modern shelf: curated entries only, and every free companion must
+    # resolve against the grid catalog so the "read this instead" links work
+    modern_path = os.path.join(BASE, "data", "modern.json")
+    if os.path.exists(modern_path):
+        modern = json.load(open(modern_path, encoding="utf-8"))
+        catalog_ids = set(ids)
+        mids = [b["id"] for b in modern]
+        mdupes = [i for i, n in Counter(mids).items() if n > 1]
+        check(not mdupes, f"duplicate ids in modern.json: {mdupes[:5]}")
+        mbad = [b["id"] for b in modern
+                if not all(str(b.get(k, "")).strip() for k in ("title", "author", "topic", "pitch", "digest"))]
+        check(not mbad, f"modern.json entries missing fields: {mbad[:5]}")
+        mfree = {c for b in modern for c in b.get("free", [])}
+        unknown = sorted(mfree - catalog_ids)
+        check(not unknown, f"modern.json links to unknown free books: {unknown[:5]}")
+        mt = Counter(b["topic"] for b in modern)
+        print(f"modern.json: {len(modern)} titles across {len(mt)} categories, "
+              f"{len(mfree)} free companions (free library untouched)")
+        check(mt.get("Self-Help", 0) >= 28 and mt.get("Psychology", 0) >= 30,
+              "modern.json is missing expected productivity/psychology titles")
+
+        # the shelf must not depend on the multi-MB catalog to render: it links a
+        # slim companion map, and if that map is missing the page blanks entirely
+        free_map = os.path.join(BASE, "data", "modern_free.json")
+        if os.path.exists(free_map):
+            slim = json.load(open(free_map, encoding="utf-8"))
+            slim_ids = {b["id"] for b in slim}
+            check(mfree == slim_ids,
+                  f"modern_free.json is out of sync with modern.json "
+                  f"(missing {sorted(mfree - slim_ids)[:3]})")
+            check(all(b.get("title") and b.get("author") for b in slim),
+                  "modern_free.json has entries missing title/author")
+            kb = os.path.getsize(free_map) / 1024
+            check(kb < 400, f"modern_free.json is {kb:.0f} KB — it should stay tiny")
+            print(f"modern_free.json: {len(slim)} classics, {kb:.0f} KB "
+                  f"(shelf no longer loads the {os.path.getsize(LITE)/1048576:.1f} MB catalog)")
+        else:
+            check(False, "data/modern_free.json missing — the modern shelf will blank on slow connections")
 
     dist = Counter(b["category"] for b in books)
     print("\ncategories:")

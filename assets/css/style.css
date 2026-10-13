@@ -269,10 +269,11 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(to top, rgba(0, 0, 0, .82), rgba(0, 0, 0, .45) 55%, transparent);
   z-index: -1;
 }
-/* the thumbnail already prints the title, so once the image is in, the generated
-   overlay would only double up on it — the card body carries the title and author */
+/* the thumbnail already prints the title and the category, so once the image is in
+   the generated overlay would only double up on it — the card body carries the title
+   and author, and the badge would repeat the category the cover already shows */
 .cover .c-art.has-cover .c-text { display: none; }
-.cover .c-art.has-cover .c-cat { background: rgba(0, 0, 0, .55); }
+.cover .c-art.has-cover .c-cat { display: none; }
 .cover .c-cat {
   font-size: 10.5px;
   font-weight: 700;
@@ -532,4 +533,214 @@ a { color: inherit; text-decoration: none; }
   .reader-head { grid-template-columns: 1fr; }
   .mini-cover { width: 170px; }
   .card-actions { grid-template-columns: 1fr 44px; }
+}
+
+/* ---------- modern classics shelf ---------- */
+.modern-main { width: min(980px, 92%); }
+
+.modern-hero { padding: 56px 0 8px; text-align: center; }
+.modern-hero h1 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(30px, 4.6vw, 48px);
+  line-height: 1.12;
+  margin: 14px 0 12px;
+}
+.modern-hero .sub {
+  max-width: 640px;
+  margin: 0 auto 26px;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+.modern-hero .sub strong { color: var(--gold-2); }
+
+.shelf-stats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 26px;
+  margin: 0 0 24px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.shelf-stats strong {
+  color: var(--gold-2);
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.modern-list { display: flex; flex-direction: column; gap: 18px; }
+
+.mcard {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mcard-head {
+  padding: 22px 24px 18px;
+  background: linear-gradient(150deg, rgba(232, 179, 75, .10), transparent 65%);
+  border-bottom: 1px solid var(--line);
+}
+.mcat {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  background: rgba(232, 179, 75, .12);
+  border: 1px solid rgba(232, 179, 75, .30);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.mcard-head h2 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(20px, 2.6vw, 27px);
+  margin: 12px 0 4px;
+}
+.mauthor { color: var(--muted); font-size: 13.5px; }
+.mpitch { margin-top: 9px; font-size: 14.5px; line-height: 1.55; color: #cfd9e6; }
+
+.mcard-body { padding: 18px 24px 22px; }
+
+.mdigest { margin-bottom: 16px; }
+.mdigest summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 9px 0;
+  list-style: none;
+}
+.mdigest summary::-webkit-details-marker { display: none; }
+.mdigest summary::before { content: "▸ "; }
+.mdigest[open] summary::before { content: "▾ "; }
+.mdigest p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #c8d2e0;
+  padding: 6px 0 4px;
+  border-top: 1px solid var(--line);
+}
+
+.mnotfree {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  background: rgba(239, 68, 68, .08);
+  border: 1px solid rgba(239, 68, 68, .26);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 14px;
+}
+.mnotfree strong { color: #fca5a5; }
+
+.mbuy { display: flex; flex-wrap: wrap; gap: 9px; }
+
+.mfree { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.mfree h3 {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 11px;
+}
+.mfree-loading { font-size: 13px; color: var(--muted); margin: 0; }
+.free-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 9px 13px 9px 9px;
+  margin-bottom: 8px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color .15s, transform .15s;
+}
+.free-link:hover { border-color: var(--gold); transform: translateX(3px); }
+.free-link img {
+  width: 38px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  flex-shrink: 0;
+  background: linear-gradient(150deg, #334155, #1e293b);
+}
+.free-txt { display: flex; flex-direction: column; min-width: 0; }
+.free-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #4ade80;
+}
+.free-title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.free-author { font-size: 11.5px; color: var(--muted); }
+.free-go { margin-left: auto; font-size: 12.5px; font-weight: 600; color: var(--gold); white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .modern-hero { padding-top: 40px; }
+  .mcard-head { padding: 18px 16px 14px; }
+  .mcard-body { padding: 15px 16px 18px; }
+  .free-link img { width: 32px; height: 42px; }
+}
+
+.head-nav { display: flex; align-items: center; gap: 16px; }
+.head-nav a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-2);
+  border: 1px solid rgba(232, 179, 75, .34);
+  padding: 6px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.head-nav a:hover { background: rgba(232, 179, 75, .12); }
+.foot-link { color: var(--gold-2); border-bottom: 1px solid rgba(232, 179, 75, .4); }
+
+.hero-shelf {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto 4px;
+  padding: 12px 20px;
+  background: rgba(232, 179, 75, .07);
+  border: 1px solid rgba(232, 179, 75, .28);
+  border-radius: 999px;
+  font-size: 13.5px;
+  color: #d5deea;
+  transition: background .15s, border-color .15s;
+}
+.hero-shelf:hover { background: rgba(232, 179, 75, .13); border-color: var(--gold); }
+.hero-shelf em { font-style: normal; color: var(--gold-2); font-weight: 600; }
+.hs-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #0d1117;
+  background: var(--gold);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+@media (max-width: 640px) {
+  .head-nav .tagline { display: none; }
+  .head-nav a { font-size: 11.5px; padding: 5px 10px; }
+  .hero-shelf { font-size: 12px; padding: 10px 15px; }
 }

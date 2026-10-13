@@ -15,6 +15,7 @@ def main():
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
         f'  <url><loc>{ORIGIN}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>',
+        f'  <url><loc>{ORIGIN}/modern.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>',
     ]
     for b in books:
         lines.append(
@@ -24,7 +25,7 @@ def main():
     lines.append("</urlset>")
     with open(SITEMAP, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
-    print(f"sitemap.xml: {len(books) + 1} urls")
+    print(f"sitemap.xml: {len(books) + 2} urls")
 
 
 if __name__ == "__main__":

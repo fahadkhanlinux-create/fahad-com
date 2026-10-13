@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Classics &amp; Bestsellers — Fahad.com</title>
+  <meta name="description" content="366 modern non-fiction bestsellers across 24 categories, each with a plain-English digest, official buy and borrow links, and free public-domain books on the same subject.">
+  <meta property="og:title" content="Modern Classics &amp; Bestsellers — Fahad.com">
+  <meta property="og:description" content="366 modern bestsellers — with free public-domain books on the same subject.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://fahad-com-ten.vercel.app/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fahad.com — Free PDF Library, 6,839 books across 17 categories">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://fahad-com-ten.vercel.app/assets/og-image.jpg">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>📚</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/">FAHAD<b>.COM</b></a>
+    <a class="back-link" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      Library
+    </a>
+  </header>
+
+  <main class="modern-main">
+    <section class="modern-hero">
+      <span class="cat-badge">Recommended shelf</span>
+      <h1>Modern Classics &amp; Bestsellers —<br><em>the books everyone asks for</em></h1>
+      <p class="sub">The modern shelf sits alongside the free library, not inside it. These are the newest, most-requested titles — productivity, psychology, business, strategy, leadership, health, history, fiction and AI. They're still in copyright, so we don't host them; instead you get a written digest, an honest note on where to buy or borrow them legally, and <strong>free public-domain books</strong> on the very same subject that you can read here right now.</p>
+      <ul class="shelf-stats" id="shelfStats">
+        <li><strong id="statTitles">…</strong> modern titles</li>
+        <li><strong id="statTopics">…</strong> categories</li>
+        <li><strong id="statFree">…</strong> free classic companions</li>
+      </ul>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="modernSearch" placeholder="Search this shelf…" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="chips" id="modernChips" aria-label="Topics"></section>
+
+    <div class="results-meta" id="modernMeta"></div>
+
+    <section class="modern-list" id="modernList"></section>
+
+    <div class="empty" id="modernEmpty" hidden>
+      <div class="empty-icon">🔍</div>
+      <h3>Nothing on this shelf matches</h3>
+      <p>Try another title or author — or browse the free library.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="foot-brand">FAHAD<b>.COM</b></div>
+    <p>All <strong>downloaded</strong> books are public-domain classics from Project Gutenberg — free to read and share. Books in copyright are never hosted here; we link to the official sellers.</p>
+    <p class="copy">© 2026 Fahad.com · Built for Vercel</p>
+  </footer>
+
+  <script src="assets/js/modern.js"></script>
+  <script src="guard.js"></script>
+</body>
+</html>

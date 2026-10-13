@@ -11,6 +11,11 @@ dropped here to stay under the file count.
 import json
 import os
 import shutil
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from build_thumbs import THUMB_EXT  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEPLOY_DIR = os.environ.get("DEPLOY_DIR", "/tmp/opencode/fahad-com-pages")
@@ -29,8 +34,9 @@ def main():
     os.makedirs(os.path.join(DEPLOY_DIR, "assets", "thumbs"))
     os.makedirs(os.path.join(DEPLOY_DIR, "data"))
 
-    for rel in ["index.html", "book.html", "guard.js", "vercel.json", "robots.txt",
-                "assets/css/style.css", "assets/js/app.js", "assets/js/book.js",
+    for rel in ["index.html", "book.html", "modern.html", "guard.js", "vercel.json",
+                "robots.txt", "assets/css/style.css", "assets/js/app.js",
+                "assets/js/book.js", "assets/js/modern.js",
                 "assets/og-image.jpg"]:
         dst = os.path.join(DEPLOY_DIR, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -43,8 +49,8 @@ def main():
             os.link(src, dst)
         except OSError:
             shutil.copy2(src, dst)
-        shutil.copy2(os.path.join(thumb_dir, b["id"] + ".jpg"),
-                     os.path.join(DEPLOY_DIR, "assets", "thumbs", b["id"] + ".jpg"))
+        shutil.copy2(os.path.join(thumb_dir, b["id"] + THUMB_EXT),
+                     os.path.join(DEPLOY_DIR, "assets", "thumbs", b["id"] + THUMB_EXT))
 
     with open(os.path.join(DEPLOY_DIR, "data", "books.json"), "w", encoding="utf-8") as f:
         json.dump(books, f, ensure_ascii=False, separators=(",", ":"))
@@ -53,8 +59,10 @@ def main():
                for b in books]
     with open(os.path.join(DEPLOY_DIR, "data", "catalog.json"), "w", encoding="utf-8") as f:
         json.dump(catalog, f, ensure_ascii=False, separators=(",", ":"))
+    shutil.copy2(os.path.join(BASE, "data", "modern.json"),
+                 os.path.join(DEPLOY_DIR, "data", "modern.json"))
 
-    urls = [ORIGIN + "/"]
+    urls = [ORIGIN + "/", ORIGIN + "/modern.html"]
     urls += [ORIGIN + "/book.html?id=" + b["id"] for b in books]
     with open(os.path.join(DEPLOY_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'

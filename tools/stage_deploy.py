@@ -14,7 +14,12 @@ Writes to DEPLOY_DIR with hardlinks for the PDFs, so staging costs no extra disk
 import json
 import os
 import shutil
+import sys
 from collections import defaultdict
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from build_thumbs import THUMB_EXT  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEPLOY_DIR = os.environ.get("DEPLOY_DIR", "/tmp/opencode/fahad-com-deploy")
@@ -29,8 +34,9 @@ MIRROR_CDN = "https://cdn.jsdelivr.net/gh/%s@%s/pdfs/%%s.pdf" % (MIRROR, MIRROR_
 MIRROR_RAW = "https://raw.githubusercontent.com/%s/%s/pdfs/%%s.pdf" % (MIRROR, MIRROR_BRANCH)
 
 SHELL = [
-    "index.html", "book.html", "guard.js", "vercel.json", "robots.txt",
+    "index.html", "book.html", "modern.html", "guard.js", "vercel.json", "robots.txt",
     "assets/css/style.css", "assets/js/app.js", "assets/js/book.js",
+    "assets/js/modern.js",
     "assets/og-image.jpg",
     ".vercelignore",
 ]
@@ -76,11 +82,11 @@ def main():
 
     # every book keeps its card: the thumbnails are the site
     books = [b for b in books
-             if os.path.exists(os.path.join(thumb_dir, b["id"] + ".jpg"))
+             if os.path.exists(os.path.join(thumb_dir, b["id"] + THUMB_EXT))
              and os.path.exists(os.path.join(pdf_dir, b["id"] + ".pdf"))]
     for b in books:
-        src = os.path.join(thumb_dir, b["id"] + ".jpg")
-        dst = os.path.join(DEPLOY_DIR, "assets", "thumbs", b["id"] + ".jpg")
+        src = os.path.join(thumb_dir, b["id"] + THUMB_EXT)
+        dst = os.path.join(DEPLOY_DIR, "assets", "thumbs", b["id"] + THUMB_EXT)
         shutil.copy2(src, dst)
         used += os.path.getsize(dst)
     print("thumbs: %d books (%.1f MB)" % (len(books), used / 1048576), flush=True)
@@ -88,6 +94,12 @@ def main():
     # JSON is written last but must be paid for now, so the PDFs get what is left
     json_per_book = 1400  # books.json + catalog.json, measured per record
     used += json_per_book * len(books)
+    # the Modern Classics shelf has no PDFs, so it is paid for flat
+    for name in ("modern.json", "modern_free.json"):
+        src = os.path.join(BASE, "data", name)
+        dst = os.path.join(DEPLOY_DIR, "data", name)
+        shutil.copy2(src, dst)
+        used += os.path.getsize(dst)
     print("after thumbs + json: %.1f MB, %.1f MB left for PDFs"
           % (used / 1048576, max(0.0, budget - used) / 1048576), flush=True)
 
@@ -129,7 +141,7 @@ def main():
     for b in books:
         bid = b["id"]
         rec = dict(b)
-        rec["cover"] = "assets/thumbs/%s.jpg" % bid
+        rec["cover"] = "assets/thumbs/%s%s" % (bid, THUMB_EXT)
         rec["local"] = bid in local
         if bid in local:
             rec["file"] = "pdfs/%s.pdf" % bid
@@ -154,6 +166,7 @@ def main():
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
         f.write("  <url><loc>%s/</loc></url>\n" % ORIGIN)
+        f.write("  <url><loc>%s/modern.html</loc></url>\n" % ORIGIN)
         for b in manifest:
             f.write("  <url><loc>%s/book?id=%s</loc></url>\n" % (ORIGIN, b["id"]))
         f.write("</urlset>\n")

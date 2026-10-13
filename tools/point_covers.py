@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """Point every book's cover at its rendered page-1 thumbnail.
 
-Reads data/books.json, rewrites the cover field to assets/thumbs/<id>.jpg and
+Reads data/books.json, rewrites the cover field to assets/thumbs/<id><ext> and
 mirrors the same records into data/catalog.json. Run after tools/build_thumbs.py.
 """
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from build_thumbs import THUMB_EXT  # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 THUMB_DIR = os.path.join(BASE, "assets", "thumbs")
@@ -16,8 +21,8 @@ CATALOG_FIELDS = ["id", "title", "author", "year", "category", "size", "pages", 
 
 
 def thumb_for(bid):
-    if os.path.exists(os.path.join(THUMB_DIR, bid + ".jpg")):
-        return "assets/thumbs/%s.jpg" % bid
+    if os.path.exists(os.path.join(THUMB_DIR, bid + THUMB_EXT)):
+        return "assets/thumbs/%s%s" % (bid, THUMB_EXT)
     return None
 
 
